@@ -34,6 +34,30 @@ export default function AvisosPage() {
     setLoading(false)
   }
 
+  const enviarNotificacion = (titulo, contenido) => {
+    // Se ejecuta de forma completamente independiente, sin await
+    setTimeout(async () => {
+      try {
+        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+        const { data: { session } } = await supabase.auth.getSession()
+        const token = session?.access_token
+        if (token) {
+          await fetch(`${supabaseUrl}/functions/v1/send-notification`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ titulo, contenido }),
+          })
+        }
+      } catch (err) {
+        console.warn('[FCM] Error enviando notificaciones:', err)
+      }
+    }, 100)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!titulo.trim() || !contenido.trim()) {
@@ -41,9 +65,14 @@ export default function AvisosPage() {
       return
     }
     setSaving(true)
+    setError('')
+
+    const tituloLimpio = titulo.normalize('NFC')
+    const contenidoLimpio = contenido.normalize('NFC')
+
     const { data, error } = await supabase
       .from('avisos')
-      .insert({ titulo, contenido, creado_por: user.id })
+      .insert({ titulo: tituloLimpio, contenido: contenidoLimpio, creado_por: user.id })
       .select()
       .single()
 
@@ -55,25 +84,8 @@ export default function AvisosPage() {
     setContenido('')
     setSaving(false)
 
-    // Enviar notificación push a todos los socios
-    try {
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-      const { data: { session } } = await supabase.auth.getSession()
-      const token = session?.access_token
-      if (token) {
-        await fetch(`${supabaseUrl}/functions/v1/send-notification`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${token}`,
-          },
-          body: JSON.stringify({ titulo, contenido }),
-        })
-      }
-    } catch (err) {
-      console.warn('[FCM] Error enviando notificaciones:', err)
-    }
+    // Enviar notificación de forma independiente (no bloquea el flujo)
+    enviarNotificacion(tituloLimpio, contenidoLimpio)
   }
 
   const handleDelete = async (id) => {
