@@ -12,6 +12,7 @@ import ConveniosPage from './pages/ConveniosPage'
 import PerfilPage from './pages/PerfilPage'
 import SociosPage from './pages/SociosPage'
 import CuotasPage from './pages/CuotasPage'
+import DenunciasPage from './pages/DenunciasPage'
 import LoginPage from './pages/LoginPage'
 import FAQPage from './pages/FAQPage'
 
@@ -38,6 +39,15 @@ export default function App() {
           <Route path="/dashboard" element={<ProtectedRoute allowDirector><DashboardPage /></ProtectedRoute>} />
           <Route path="/cuotas" element={<ProtectedRoute allowDirector><CuotasPage /></ProtectedRoute>} />
           <Route path="/socios" element={<ProtectedRoute allowDirector><SociosPage /></ProtectedRoute>} />
+          <Route path="/denuncias" element={<ProtectedRoute allowDirector><DenunciasPage /></ProtectedRoute>} />
+
+          {/* Encuestas — se activan desde config o feature flag */}
+          {/* <Route path="/encuestas" element={<ProtectedRoute><EncuestasPage /></ProtectedRoute>} /> */}
+          {/* <Route path="/encuestas/admin" element={<ProtectedRoute allowDirector><EncuestasAdminPage /></ProtectedRoute>} /> */}
+
+          {/* Votaciones — se activan desde config o feature flag */}
+          {/* <Route path="/votaciones" element={<ProtectedRoute><VotacionesPage /></ProtectedRoute>} /> */}
+          {/* <Route path="/votaciones/admin" element={<ProtectedRoute allowDirector><VotacionesAdminPage /></ProtectedRoute>} /> */}
 
         </Route>
 
