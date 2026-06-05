@@ -13,6 +13,8 @@ import PerfilPage from './pages/PerfilPage'
 import SociosPage from './pages/SociosPage'
 import CuotasPage from './pages/CuotasPage'
 import DenunciasPage from './pages/DenunciasPage'
+import EncuestasPage from './pages/EncuestasPage'
+import EncuestasAdminPage from './pages/EncuestasAdminPage'
 import LoginPage from './pages/LoginPage'
 import FAQPage from './pages/FAQPage'
 
@@ -34,18 +36,16 @@ export default function App() {
           <Route path="/convenios" element={<ProtectedRoute><ConveniosPage /></ProtectedRoute>} />
           <Route path="/perfil" element={<ProtectedRoute><PerfilPage /></ProtectedRoute>} />
           <Route path="/faq" element={<ProtectedRoute><FAQPage /></ProtectedRoute>} />
+          <Route path="/encuestas" element={<ProtectedRoute><EncuestasPage /></ProtectedRoute>} />
 
           {/* Director y Administrador */}
           <Route path="/dashboard" element={<ProtectedRoute allowDirector><DashboardPage /></ProtectedRoute>} />
           <Route path="/cuotas" element={<ProtectedRoute allowDirector><CuotasPage /></ProtectedRoute>} />
           <Route path="/socios" element={<ProtectedRoute allowDirector><SociosPage /></ProtectedRoute>} />
           <Route path="/denuncias" element={<ProtectedRoute allowDirector><DenunciasPage /></ProtectedRoute>} />
+          <Route path="/encuestas/admin" element={<ProtectedRoute allowDirector><EncuestasAdminPage /></ProtectedRoute>} />
 
-          {/* Encuestas — se activan desde config o feature flag */}
-          {/* <Route path="/encuestas" element={<ProtectedRoute><EncuestasPage /></ProtectedRoute>} /> */}
-          {/* <Route path="/encuestas/admin" element={<ProtectedRoute allowDirector><EncuestasAdminPage /></ProtectedRoute>} /> */}
-
-          {/* Votaciones — se activan desde config o feature flag */}
+          {/* Votaciones — se activan cuando se migre el módulo */}
           {/* <Route path="/votaciones" element={<ProtectedRoute><VotacionesPage /></ProtectedRoute>} /> */}
           {/* <Route path="/votaciones/admin" element={<ProtectedRoute allowDirector><VotacionesAdminPage /></ProtectedRoute>} /> */}
 
