@@ -2,9 +2,10 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
   Home, FileText, Scale, Gift, Handshake, User, Users,
-  DollarSign, LayoutDashboard, LogOut, HelpCircle
+  DollarSign, LayoutDashboard, LogOut, HelpCircle,
+  ShieldAlert, ClipboardList, Vote,
 } from 'lucide-react'
-import { APP_CONFIG, COLORS } from '../../config'
+import { APP_CONFIG } from '../../config'
 import { useAuth } from '../../contexts/AuthContext'
 import { cn } from '../../lib/utils'
 import { Button } from '../ui/button'
@@ -15,23 +16,28 @@ export function DesktopNav() {
   const { isAdministrador, isDirector, signOut, profile } = useAuth()
 
   const socioLinks = [
-    { to: '/',            icon: Home,            label: 'Inicio' },
-    { to: '/avisos',      icon: FileText,        label: 'Avisos' },
-    { to: '/beneficios',  icon: Gift,            label: 'Beneficios' },
-    { to: '/convenios',   icon: Handshake,       label: 'Convenios' },
-    { to: '/leyes',       icon: Scale,           label: 'Leyes Laborales' },
-    { to: '/perfil',      icon: User,            label: 'Mi Perfil' },
-    { to: '/faq',         icon: HelpCircle,      label: 'Preguntas Frecuentes' },
+    { to: '/',           icon: Home,          label: 'Inicio' },
+    { to: '/avisos',     icon: FileText,      label: 'Avisos' },
+    { to: '/beneficios', icon: Gift,          label: 'Beneficios' },
+    { to: '/convenios',  icon: Handshake,     label: 'Convenios' },
+    { to: '/leyes',      icon: Scale,         label: 'Leyes Laborales' },
+    { to: '/encuestas',  icon: ClipboardList, label: 'Encuestas' },
+    { to: '/votaciones', icon: Vote,          label: 'Votaciones' },
+    { to: '/perfil',     icon: User,          label: 'Mi Perfil' },
+    { to: '/faq',        icon: HelpCircle,    label: 'Preguntas Frecuentes' },
   ]
+
   const directorLinks = [
     ...socioLinks,
-    { to: '/dashboard',  icon: LayoutDashboard, label: 'Panel de Gestión' },
-    { to: '/cuotas',     icon: DollarSign,      label: 'Cuotas' },
-    { to: '/socios',     icon: Users,           label: 'Gestión de Socios' },
+    { to: '/dashboard',        icon: LayoutDashboard, label: 'Panel de Gestión' },
+    { to: '/cuotas',           icon: DollarSign,      label: 'Cuotas' },
+    { to: '/socios',           icon: Users,           label: 'Gestión de Socios' },
+    { to: '/denuncias',        icon: ShieldAlert,     label: 'Denuncias' },
+    { to: '/encuestas/admin',  icon: ClipboardList,   label: 'Encuestas Admin' },
+    { to: '/votaciones/admin', icon: Vote,            label: 'Votaciones Admin' },
   ]
-  const adminLinks = [
-    ...directorLinks,
-  ]
+
+  const adminLinks = [ ...directorLinks ]
 
   const links = isAdministrador ? adminLinks : isDirector ? directorLinks : socioLinks
 
@@ -46,21 +52,18 @@ export function DesktopNav() {
 
   return (
     <aside className="hidden md:flex flex-col w-64 h-screen border-r fixed left-0 top-0"
-           style={{ backgroundColor: '#1e40af' }}>
+           style={{ backgroundColor: APP_CONFIG.colorPrimarioOscuro }}>
 
       {/* ── Logo + nombre sindicato ── */}
-      <div className="p-4 border-b border-blue-700 flex flex-col items-center gap-2">
-        <img
-          src="/logo.png"
-          alt="Logo Sindicato"
-          className="w-20 h-20 object-contain rounded-full"
-        />
+      <div className="p-4 border-b flex flex-col items-center gap-2"
+           style={{ borderColor: `${APP_CONFIG.colorPrimario}60` }}>
+        <img src="/logo.png" alt="Logo" className="w-20 h-20 object-contain rounded-full" />
         <div className="text-center">
           <p className="text-xs font-medium text-blue-100 leading-tight">
             {APP_CONFIG.nombreSindicato}
           </p>
           <p className="text-xs mt-1 px-2 py-0.5 rounded-full inline-block"
-             style={{ backgroundColor: '#3b82f6', color: '#1e3a8a' }}>
+             style={{ backgroundColor: APP_CONFIG.colorAcento, color: APP_CONFIG.colorTextoSobreAcento }}>
             {isAdministrador ? 'Administrador' : isDirector ? 'Director' : 'Socio'}
           </p>
         </div>
@@ -77,11 +80,11 @@ export function DesktopNav() {
                 to={to}
                 className={cn(
                   'flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors',
-                  isActive
-                    ? 'text-white font-semibold'
-                    : 'text-blue-100 hover:text-white hover:bg-blue-700'
+                  isActive ? 'font-semibold' : 'text-blue-100 hover:text-white hover:bg-blue-700'
                 )}
-                style={isActive ? { backgroundColor: '#3b82f6', color: '#1e3a8a' } : {}}
+                style={isActive
+                  ? { backgroundColor: APP_CONFIG.colorAcento, color: APP_CONFIG.colorTextoSobreAcento }
+                  : {}}
               >
                 <Icon className="w-5 h-5" />
                 <span className="font-medium">{label}</span>
@@ -92,11 +95,11 @@ export function DesktopNav() {
       </div>
 
       {/* ── Usuario + cerrar sesión ── */}
-      <div className="p-4 border-t border-blue-700 space-y-3">
+      <div className="p-4 border-t space-y-3" style={{ borderColor: `${APP_CONFIG.colorPrimario}60` }}>
         <div className="flex items-center space-x-3 px-2">
           <Avatar>
             <AvatarImage src={profile?.foto_url} />
-            <AvatarFallback style={{ backgroundColor: '#3b82f6', color: '#1e3a8a' }}>
+            <AvatarFallback style={{ backgroundColor: APP_CONFIG.colorAcento, color: APP_CONFIG.colorTextoSobreAcento }}>
               {getInitials(profile?.nombre)}
             </AvatarFallback>
           </Avatar>
@@ -108,8 +111,8 @@ export function DesktopNav() {
 
         <Button
           variant="outline"
-          className="w-full border-blue-300 text-white hover:bg-blue-700 hover:text-white"
-          style={{ borderColor: '#3b82f6' }}
+          className="w-full text-white hover:text-white"
+          style={{ borderColor: APP_CONFIG.colorAcento }}
           onClick={handleLogout}
         >
           <LogOut className="w-4 h-4 mr-2" />
