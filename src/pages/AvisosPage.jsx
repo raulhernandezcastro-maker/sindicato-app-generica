@@ -64,9 +64,11 @@ export default function AvisosPage() {
       frecuencia_dias: esRecurrente ? frecuenciaDias : null,
       fecha_inicio: esRecurrente ? fechaInicio : null,
       fecha_fin: esRecurrente && fechaFin ? fechaFin : null,
-      proxima_notificacion: esRecurrente
-        ? (new Date(fechaInicio) < new Date() ? new Date().toISOString().split('T')[0] : fechaInicio)
-        : null,
+      proxima_notificacion: esRecurrente ? (() => {
+        const inicio = new Date(fechaInicio)
+        inicio.setDate(inicio.getDate() + frecuenciaDias)
+        return inicio.toISOString().split('T')[0]
+      })() : null,
       recurrente_activo: esRecurrente ? true : null,
     }
 
@@ -121,7 +123,9 @@ export default function AvisosPage() {
 
   const formatDate = (str) => {
     if (!str) return '—'
-    return new Date(str).toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' })
+    const [year, month, day] = str.split('T')[0].split('-')
+    return new Date(Number(year), Number(month) - 1, Number(day))
+      .toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' })
   }
 
   const recurrentesActivos = avisos.filter(a => a.es_recurrente)
