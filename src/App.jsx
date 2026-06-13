@@ -17,6 +17,7 @@ import EncuestasPage from './pages/EncuestasPage'
 import EncuestasAdminPage from './pages/EncuestasAdminPage'
 import VotacionesPage from './pages/VotacionesPage'
 import VotacionesAdminPage from './pages/VotacionesAdminPage'
+import ContratoChatPage from './pages/ContratoChatPage'
 import LoginPage from './pages/LoginPage'
 import FAQPage from './pages/FAQPage'
 
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="/faq"        element={<ProtectedRoute><FAQPage /></ProtectedRoute>} />
           <Route path="/encuestas"  element={<ProtectedRoute><EncuestasPage /></ProtectedRoute>} />
           <Route path="/votaciones" element={<ProtectedRoute><VotacionesPage /></ProtectedRoute>} />
+          <Route path="/chat-beneficios" element={<ProtectedRoute><ContratoChatPage /></ProtectedRoute>} />
 
           {/* Director y Administrador */}
           <Route path="/dashboard"        element={<ProtectedRoute allowDirector><DashboardPage /></ProtectedRoute>} />
