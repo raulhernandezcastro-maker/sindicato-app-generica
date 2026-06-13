@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import {
   Home, FileText, Scale, Gift, Handshake, User, Users,
   DollarSign, LayoutDashboard, LogOut, HelpCircle,
-  ShieldAlert, ClipboardList, Vote,
+  ShieldAlert, ClipboardList, Vote, MessageSquare,
 } from 'lucide-react'
 import { APP_CONFIG } from '../../config'
 import { useAuth } from '../../contexts/AuthContext'
@@ -23,6 +23,7 @@ export function DesktopNav() {
     { to: '/leyes',      icon: Scale,         label: 'Leyes Laborales' },
     { to: '/encuestas',  icon: ClipboardList, label: 'Encuestas' },
     { to: '/votaciones', icon: Vote,          label: 'Votaciones' },
+    { to: '/chat-beneficios', icon: MessageSquare, label: 'Chat Beneficios' },
     { to: '/perfil',     icon: User,          label: 'Mi Perfil' },
     { to: '/faq',        icon: HelpCircle,    label: 'Preguntas Frecuentes' },
   ]
