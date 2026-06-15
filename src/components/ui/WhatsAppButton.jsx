@@ -17,6 +17,11 @@ export default function WhatsAppButton() {
     }
   }
 
+  const handleChatBeneficios = () => {
+    setAbierto(false)
+    navigate('/chat-beneficios')
+  }
+
   return (
     <>
       {/* Overlay para cerrar al hacer clic fuera */}
@@ -60,6 +65,30 @@ export default function WhatsAppButton() {
               </a>
             </div>
 
+            {/* Chat de Beneficios */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', animation: 'speedDialIn 0.22s ease both' }}>
+              <span style={{
+                backgroundColor: '#fff', color: '#1a1a1a', fontSize: '13px', fontWeight: 500,
+                padding: '5px 10px', borderRadius: '20px', boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                whiteSpace: 'nowrap',
+              }}>Chat de Beneficios</span>
+              <button
+                onClick={handleChatBeneficios}
+                style={{
+                  width: '46px', height: '46px', borderRadius: '50%',
+                  backgroundColor: '#7C3AED',
+                  border: 'none', cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: '0 3px 10px rgba(0,0,0,0.2)', flexShrink: 0,
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                     fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+              </button>
+            </div>
+
             {/* Denuncias */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', animation: 'speedDialIn 0.25s ease both' }}>
               <span style={{
@@ -89,7 +118,7 @@ export default function WhatsAppButton() {
         {/* Botón principal */}
         <button
           onClick={() => setAbierto(v => !v)}
-          title="Contacto y Denuncias"
+          title="Contacto, Beneficios y Denuncias"
           style={{
             width: '52px', height: '52px', borderRadius: '50%',
             backgroundColor: APP_CONFIG.colorPrimario,
