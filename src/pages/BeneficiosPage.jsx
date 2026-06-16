@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Plus, Trash2, Gift, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { Plus, Trash2, Gift, X, ChevronLeft, ChevronRight, MessageCircle } from 'lucide-react'
+import { APP_CONFIG } from '../config'
 import { useAuth } from '../contexts/AuthContext'
 import { supabase } from '../lib/supabase'
 import { Button } from '../components/ui/button'
@@ -14,6 +16,7 @@ import WhatsAppButton from '../components/ui/WhatsAppButton'
 
 export default function BeneficiosPage() {
   const { isAdministrador, user } = useAuth()
+  const navigate = useNavigate()
 
   const [beneficios, setBeneficios]   = useState([])
   const [loading, setLoading]         = useState(true)
@@ -142,21 +145,39 @@ export default function BeneficiosPage() {
 
       {/* ── Encabezado ── */}
       <div className="flex items-center justify-between px-4 py-3 rounded-lg"
-           style={{ backgroundColor: '#1e40af' }}>
+           style={{ backgroundColor: APP_CONFIG.colorPrimarioOscuro }}>
         <div className="flex items-center gap-2">
           <Gift className="w-5 h-5 text-white" />
           <div>
             <h1 className="text-xl font-bold text-white">Beneficios</h1>
-            <p className="text-xs text-blue-100">
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.75)' }}>
               {beneficios.length} beneficio{beneficios.length !== 1 ? 's' : ''} del contrato colectivo
             </p>
           </div>
         </div>
 
-        {isAdministrador && (
+        {/* ── Acciones derecha ── */}
+        <div className="flex items-center gap-2">
+
+          {/* Botón Chat — visible para todos */}
+          <Button
+            size="sm"
+            onClick={() => navigate('/chat-beneficios')}
+            className="flex items-center gap-1.5"
+            style={{ backgroundColor: APP_CONFIG.colorAcento, color: APP_CONFIG.colorTextoSobreAcento }}
+          >
+            <MessageCircle className="w-4 h-4" />
+            <span className="hidden sm:inline">Chat Beneficios</span>
+            <span className="sm:hidden">Chat</span>
+          </Button>
+
+          {/* Botón Agregar — solo admin */}
+          {isAdministrador && (
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
-              <Button size="sm" style={{ backgroundColor: '#3b82f6', color: '#1e3a8a' }}>
+              <Button size="sm" variant="outline"
+                      className="text-white hover:text-white"
+                      style={{ borderColor: 'rgba(255,255,255,0.45)' }}>
                 <Plus className="w-4 h-4 mr-1" />
                 Agregar
               </Button>
@@ -197,14 +218,16 @@ export default function BeneficiosPage() {
                   <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
                     Cancelar
                   </Button>
-                  <Button type="submit" disabled={formLoading} style={{ backgroundColor: '#1e40af', color: 'white' }}>
+                  <Button type="submit" disabled={formLoading}
+                          style={{ backgroundColor: APP_CONFIG.colorPrimarioOscuro, color: 'white' }}>
                     {formLoading ? 'Subiendo...' : 'Agregar'}
                   </Button>
                 </div>
               </form>
             </DialogContent>
           </Dialog>
-        )}
+          )}
+        </div>
       </div>
 
       {/* ── Galería ── */}
@@ -235,9 +258,9 @@ export default function BeneficiosPage() {
                   />
                 </div>
                 {/* Título */}
-                <div className="px-2 py-2" style={{ backgroundColor: '#eff6ff' }}>
+                <div className="px-2 py-2" style={{ backgroundColor: APP_CONFIG.colorFondoSuave || '#f0f9f2' }}>
                   <p className="text-xs font-semibold leading-tight text-center"
-                     style={{ color: '#1e40af' }}>
+                     style={{ color: APP_CONFIG.colorPrimarioOscuro }}>
                     {b.titulo}
                   </p>
                   {b.descripcion && (
