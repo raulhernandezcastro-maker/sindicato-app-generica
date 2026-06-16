@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   MessageSquare, ChevronRight, ArrowLeft, Send, RotateCcw,
   CalendarCheck, DollarSign, Gift, HeartPulse, FileSignature, Info,
@@ -16,6 +17,7 @@ const ICONOS = {
 // Pasos del flujo: 'temas' -> 'subtemas' -> 'chat'
 export default function ContratoChatPage() {
   const { isAdministrador } = useAuth()
+  const navigate = useNavigate()
   const [habilitado, setHabilitado] = useState(false)
   const [loading, setLoading]       = useState(true)
 
@@ -144,6 +146,15 @@ export default function ContratoChatPage() {
       {/* Encabezado */}
       <div className="rounded-xl px-4 py-3 mb-4 flex items-center gap-3"
            style={{ backgroundColor: APP_CONFIG.colorPrimarioOscuro }}>
+        {/* Volver a Beneficios — siempre visible */}
+        <button
+          onClick={() => navigate('/beneficios')}
+          className="text-white/70 hover:text-white transition-colors flex-shrink-0"
+          title="Volver a Beneficios"
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </button>
+
         <MessageSquare className="w-5 h-5 text-white flex-shrink-0" />
         <div className="flex-1">
           <h1 className="text-white font-bold text-base leading-tight">Chat de Beneficios</h1>
@@ -151,6 +162,7 @@ export default function ContratoChatPage() {
             Consulta tu Convenio Colectivo
           </p>
         </div>
+        {/* Volver interno entre pasos */}
         {paso !== 'temas' && (
           <button onClick={paso === 'chat' ? volverASubtemas : volverATemas}
                   className="text-xs px-3 py-1 rounded-full bg-white/10 text-white flex items-center gap-1">
