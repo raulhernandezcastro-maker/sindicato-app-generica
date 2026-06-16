@@ -176,8 +176,11 @@ export default function BeneficiosPage() {
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
               <Button size="sm" variant="outline"
-                      className="text-white hover:text-white"
-                      style={{ borderColor: 'rgba(255,255,255,0.45)' }}>
+                      style={{
+                        backgroundColor: 'transparent',
+                        borderColor: 'rgba(255,255,255,0.55)',
+                        color: 'white',
+                      }}>
                 <Plus className="w-4 h-4 mr-1" />
                 Agregar
               </Button>
