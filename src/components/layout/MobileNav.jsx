@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import {
   Home, FileText, Scale, Gift, Handshake, User, Users,
   DollarSign, LayoutDashboard, LogOut, HelpCircle, Menu, X,
-  ShieldAlert, ClipboardList, Vote, MessageSquare,
+  ShieldAlert, ClipboardList, Vote,
 } from 'lucide-react'
 import { APP_CONFIG } from '../../config'
 import { useAuth } from '../../contexts/AuthContext'
@@ -22,7 +22,6 @@ export function MobileNav() {
     { to: '/leyes',       icon: Scale,         label: 'Leyes' },
     { to: '/encuestas',   icon: ClipboardList, label: 'Encuestas' },
     { to: '/votaciones',  icon: Vote,          label: 'Votaciones' },
-    { to: '/chat-beneficios', icon: MessageSquare, label: 'Chat Beneficios' },
     { to: '/perfil',      icon: User,          label: 'Perfil' },
     { to: '/faq',         icon: HelpCircle,    label: 'Preguntas' },
   ]
